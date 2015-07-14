@@ -1,4 +1,4 @@
-angular.module('appServices', ['ngResource'])
+angular.module('restServices', ['ngResource'])
 .factory('userService', function($rootScope, $resource) {
 	
 	return $resource($rootScope.getServiceFullUrl('user/:action'), {},

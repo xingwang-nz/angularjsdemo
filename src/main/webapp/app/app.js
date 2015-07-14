@@ -1,4 +1,4 @@
-var mainApp = angular.module('mainApp', [ 'ngRoute', 'ngCookies', 'ngAnimate', 'mgcrea.ngStrap', 'ngFileUpload', 'ngFileUpload', 'appServices', 'ngProgress',
+var mainApp = angular.module('mainApp', [ 'ngRoute', 'ngCookies', 'ngAnimate', 'mgcrea.ngStrap', 'ngFileUpload', 'ngFileUpload', 'restServices', 'ngProgress',
         'angularSpinner', 'toaster'
 ]);
 
