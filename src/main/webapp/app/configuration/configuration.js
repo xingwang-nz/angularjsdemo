@@ -68,7 +68,7 @@ angular.module('mainApp').controller('configFileController', function($scope, $r
             filename : $scope.configFile.filename,
             content : $scope.configFile.content
         }, function(data, status) {
-            toaster.pop({type: 'success', title:'', body:$scope.configFile.filename + " was saved file successfully"});
+            toaster.pop({type: 'success', title:'', body:$scope.configFile.filename + " was saved successfully"});
             $scope.configFile.filename = "";
             $scope.configFile.content = "";
             

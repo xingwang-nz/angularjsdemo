@@ -28,16 +28,10 @@
 						<input type="submit" value="Log In" class="btn btn-primary"
 							ng-click="login()" ng-disabled="loginForm.$invalid"/>
 					</div>
+					
 				</div>
+				<div class="alert alert-danger col-sm-12" style="padding-right: 1px;" ng-show="authError">{{authError}}</div>
 			</form>
+				
 			
-			<div class="alert alert-danger" ng-show="authError">Login failed, either the username was not recognised or the password was incorrect</div>
 </div>			
-<!-- 		</div> -->
-
-<!-- 		<div class="col-md-6"> -->
-<!-- 			<p class="alert alert-info">Login with either user:user to read -->
-<!-- 				entries or with admin:admin to read and edit entries.</p> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- </div> -->

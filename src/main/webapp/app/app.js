@@ -31,18 +31,21 @@ mainApp.config(function($routeProvider, $locationProvider, $httpProvider){
 		        	'responseError': function(rejection) {
 		        		
 		        		var status = rejection.status;
-		        		alert(status);
 		        		var config = rejection.config;
 		        		var method = config.method;
 		        		var url = config.url;
-		        		alert(url);
 		        
 		        		$rootScope.error = method + " on " + url + " failed with status " + status;
 		        		
 		        		if (status == 401) {
-		        			$rootScope.authError = "un-authorized";
-		        			
-		        			$rootScope.clearAuth();
+		        		    $rootScope.clearAuth();
+		        		    if($location.path() == "/home") {
+		        		        //on login page, stay here and show error
+		        		        $rootScope.authError = "username/password was incorrect";
+		        		    }else {
+		        		        delete $rootScope.authError;
+		        		        $rootScope.logout();
+		        		    }
 		        		} else {
 		        		}
 		              
