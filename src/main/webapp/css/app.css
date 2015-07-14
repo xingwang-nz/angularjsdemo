@@ -32,3 +32,33 @@
   left:0;
   opacity:0;
 }
+
+fieldset.fieldset-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  1px 1px 1px 1px #888888;
+            box-shadow:  1px 1px 1px 1px #888888;
+}
+
+legend.legend-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+
+}
+
+.drop-box {
+     margin: 0;
+     padding: 0;
+     border: 1px dashed #666;  /* set to none if you don't want border */
+     font-family: Georgia;
+     font-size: 20px;
+     background: #FFF;
+     color: #3B444B;
+     text-align: center; 
+     vertical-align: niddle;
+     height: 100px;
+     line-height: 100px;
+     width: 200px;
+}

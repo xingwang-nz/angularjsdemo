@@ -1,4 +1,4 @@
-var mainApp = angular.module('mainApp', ['ngRoute', 'ngCookies', 'ngAnimate', 'mgcrea.ngStrap', 'appServices']);
+var mainApp = angular.module('mainApp', ['ngRoute', 'ngCookies', 'ngAnimate', 'mgcrea.ngStrap', 'ngFileUpload', 'ngFileUpload', 'appServices']);
 
 mainApp.config(function($routeProvider, $locationProvider, $httpProvider){
 		
@@ -14,6 +14,7 @@ mainApp.config(function($routeProvider, $locationProvider, $httpProvider){
 			controller : 'configurationController',
 			templateUrl : 'app/configuration/configuration.html'
 		})
+		
 		// default
 		.otherwise({
 			redirectTo : '/home'

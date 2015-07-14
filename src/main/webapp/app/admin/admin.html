@@ -1,3 +1,24 @@
-<div class="container">
-	<h1>this is admin page</h1>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4">
+			<fieldset class="fieldset-border">
+				<legend class="legend-border">Upload File Demo</legend>
+				
+				<button class="btn btn-primary" ngf-select="true"
+					ngf-multiple="false" ngf-change="uploadFile($files, $event)">{{upoladFileText}}</button>
+					
+				<p/>
+
+				<div class="drop-box" ngf-drop ng-model="files"
+					ngf-drag-over-class="dragover" ngf-multiple="false"
+					ngf-allow-dir="false"><span style="vertical-align: middle;display: inline-block;">Or Drop file here</span></div>
+			</fieldset>
+
+		</div>
+
+		<div class="container-fluid ng-hide view-slide-in col-md-5"></div>
+
+
+		<div class="clearfix visible-lg"></div>
+	</div>
 </div>
