@@ -80,15 +80,30 @@ mainApp.config(function($routeProvider, $locationProvider, $httpProvider){
 	});
 
 //run when application starts
-mainApp.run(function($rootScope, $location, $cookieStore) {
+mainApp.run(function($rootScope, $location, $cookieStore, ngProgress) {
+//    ngProgress.start();
 	
 	$rootScope.enableCookie = false;
 	
 	$rootScope.initialized = true;
 	
+
+//    $http.get('config.json').then(function(response) {
+//        $rootScope.envConfig = response.data;
+//        console.log('restServiceBaseUrl is ', $rootScope.envConfig.restServiceBaseUrl);
+//       ngProgress.complete();
+//            ngProgress.stop();
+//    });
+
 	
 	$rootScope.getServiceFullUrl = function(requestUrl) {
-		return appConfig.serverBaseUrl + "/" + requestUrl;
+	    if(requestUrl.charAt(0) === '/') {
+            return appConfig.restServiceBaseUrl + requestUrl;
+//          return $rootScope.envConfig.restServiceBaseUrl + requestUrl;
+        }else {
+            return appConfig.restServiceBaseUrl + "/" + requestUrl;    
+//          return $rootScope.envConfig.restServiceBaseUrl + "/" + requestUrl;
+        }
 	}
 	
 	$rootScope.clearAuth = function() {
