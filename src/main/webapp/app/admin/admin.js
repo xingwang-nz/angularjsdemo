@@ -14,16 +14,28 @@ angular.module('mainApp').controller('uploadController', function($scope, $rootS
     $scope.$watch('files', function () {
         $scope.uploadFile($scope.files);
     });
+    
+    $scope.uploader = {};
+    
+    $scope.uploadInProgress = false;
+    
+    $scope.abortUpload = function() {
+        if($scope.uploadInProgress && $scope.uploader) {
+            $scope.uploader.abort();
+            ngProgress.stop();
+            $scope.uploadInProgress = false;
+        }
+    }
 
     $scope.uploadFile = function (files, evt) {
         if (files && files.length) {
             
             ngProgress.start();
-            $scope.showSpinner = true;
+            $scope.uploadInProgress = true;
             
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
-                Upload.upload({
+                $scope.uploader = Upload.upload({
                     url: $rootScope.getServiceFullUrl('file/upload'),
                     fields: {'username': $rootScope.user.username},
                     file: file
@@ -34,11 +46,11 @@ angular.module('mainApp').controller('uploadController', function($scope, $rootS
                     console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                     ngProgress.complete();
                     ngProgress.stop();
-                    $scope.showSpinner = false;
+                    $scope.uploadInProgress = false;
                 }).error(function (data, status, headers, config) {
                     console.log('error status: ' + status);
                     ngProgress.stop();
-                    $scope.showSpinner = false;
+                    $scope.uploadInProgress = false;
                 })
             }
         }

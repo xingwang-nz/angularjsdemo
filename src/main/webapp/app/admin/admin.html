@@ -14,8 +14,12 @@
 					ngf-allow-dir="false"><span style="vertical-align: middle;display: inline-block;">Or Drop file here</span></div>
 					 
 				<p/>
-				<span us-spinner="{radius:30, width:8, length: 16}" ng-show="showSpinner"></span>	
+				
+				<button class="btn btn-danger"  ng-show="false" ng-click="abortUpload()">Cancel Upload</button>
+				
+				<span us-spinner="{radius:30, width:8, length: 16}" ng-show="uploadInProgress"></span>	
 			</fieldset>
+			
 
 		</div>
 
