@@ -1,6 +1,15 @@
-angular.module('mainApp').controller('adminController', function($scope, $rootScope, $location, Upload) {
+angular.module('mainApp').controller('adminController', function($scope, $rootScope, $location, Upload, ngProgress) {
+    
+
+});
+
+angular.module('mainApp').controller('uploadController', function($scope, $rootScope, $location, Upload, ngProgress) {
+    ngProgress.height("5px");
+    ngProgress.color("#6666FF");
 
     $scope.upoladFileText = "Upload File";
+    $scope.showSpinner = false;
+    
     
     $scope.$watch('files', function () {
         $scope.uploadFile($scope.files);
@@ -8,6 +17,10 @@ angular.module('mainApp').controller('adminController', function($scope, $rootSc
 
     $scope.uploadFile = function (files, evt) {
         if (files && files.length) {
+            
+            ngProgress.start();
+            $scope.showSpinner = true;
+            
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 Upload.upload({
@@ -16,11 +29,16 @@ angular.module('mainApp').controller('adminController', function($scope, $rootSc
                     file: file
                 }).progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                    ngProgress.set(progressPercentage);
                 }).success(function (data, status, headers, config) {
                     console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                    ngProgress.complete();
+                    ngProgress.stop();
+                    $scope.showSpinner = false;
                 }).error(function (data, status, headers, config) {
                     console.log('error status: ' + status);
+                    ngProgress.stop();
+                    $scope.showSpinner = false;
                 })
             }
         }
