@@ -1,4 +1,6 @@
-var mainApp = angular.module('mainApp', ['ngRoute', 'ngCookies', 'ngAnimate', 'mgcrea.ngStrap', 'ngFileUpload', 'ngFileUpload', 'appServices', 'ngProgress', 'angularSpinner']);
+var mainApp = angular.module('mainApp', [ 'ngRoute', 'ngCookies', 'ngAnimate', 'mgcrea.ngStrap', 'ngFileUpload', 'ngFileUpload', 'appServices', 'ngProgress',
+        'angularSpinner', 'toaster'
+]);
 
 mainApp.config(function($routeProvider, $locationProvider, $httpProvider){
 		

@@ -26,4 +26,14 @@ angular.module('appServices', ['ngResource'])
 				}
 			}
 		);
+}).factory('s3FileService', function($rootScope, $resource) {
+    
+    return $resource($rootScope.getServiceFullUrl('file/:action'), {},
+            {
+                saveConfigFile: {
+                    method: 'POST',
+                    params: {'action' : 'saveContent'},
+                }
+            }
+        );
 });

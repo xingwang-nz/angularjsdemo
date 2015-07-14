@@ -3,7 +3,7 @@ angular.module('mainApp').controller('configurationController', function($scope,
 
 });
 
-angular.module('mainApp').controller('uploadController', function($scope, $rootScope, $location, Upload, ngProgress) {
+angular.module('mainApp').controller('fileUploadController', function($scope, $rootScope, Upload, ngProgress, toaster) {
     ngProgress.height("5px");
     ngProgress.color("#6666FF");
 
@@ -43,11 +43,13 @@ angular.module('mainApp').controller('uploadController', function($scope, $rootS
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     ngProgress.set(progressPercentage);
                 }).success(function (data, status, headers, config) {
-                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                    toaster.pop({type: 'success', title: '', body: "File was uploaded successfully"});
                     ngProgress.complete();
                     ngProgress.stop();
                     $scope.uploadInProgress = false;
+                    
                 }).error(function (data, status, headers, config) {
+                    toaster.pop({type: 'error', title: 'File Upload', body: "File uploaded failed " + status});
                     console.log('error status: ' + status);
                     ngProgress.stop();
                     $scope.uploadInProgress = false;
@@ -56,4 +58,34 @@ angular.module('mainApp').controller('uploadController', function($scope, $rootS
         }
     };
 
+});
+
+angular.module('mainApp').controller('configFileController', function($scope, $rootScope, s3FileService, toaster) {
+
+    $scope.sendConfigFile = function() {
+        delete $scope.saveConfigFileMsg;
+        s3FileService.saveConfigFile({}, {
+            filename : $scope.configFile.filename,
+            content : $scope.configFile.content
+        }, function(data, status) {
+            toaster.pop({type: 'success', title:'', body:$scope.configFile.filename + " was saved file successfully"});
+            $scope.configFile.filename = "";
+            $scope.configFile.content = "";
+            
+            //$scope.saveConfigFileMsg = $scope.configFile.filename + " was saved successfully";
+            //$scope.saveConfigFileMsgClass = "alert alert-success";
+        }, function(error, status){
+            toaster.pop({type: 'error', title: '', body:$scope.configFile.filename + " saved failed: " + error});
+            console.log('error status: ' + status);
+            
+            //$scope.saveConfigFileMsg ="Save " + $scope.configFile.filename + " failed (" + status +"): " + error ;
+            //$scope.saveConfigFileMsgClass = "alert alert-danger";
+        });
+    }
+    
+    $scope.pop = function () {
+        alert(1);
+        toaster.pop('success', "title", "text");
+    }
+    
 });
