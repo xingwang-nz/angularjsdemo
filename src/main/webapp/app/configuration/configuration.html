@@ -27,11 +27,11 @@
 				
 				<form class="form-horizontal" name="configFileForm">
 					<div class="form-group">
-						<label for="filename" class="col-sm-2 control-label">File name:</label>
+						<label for="filename" class="col-sm-3 control-label">File name:</label>
 						<div class="col-sm-7">
 							<input id="filename" ng-model="configFile.filename" type="text" required class="form-control" />
 						</div>
-						<span class="col-sm-3">
+						<span class="col-sm-2">
 					        <button class="btn btn-primary"  ng-disabled="configFileForm.$invalid" ng-click="sendConfigFile()">                          
 					            Send
 					        </button>
