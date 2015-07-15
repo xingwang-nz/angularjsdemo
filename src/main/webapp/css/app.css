@@ -49,9 +49,9 @@ legend.legend-border {
 }
 
 .drop-box {
-     margin: 0;
-     padding: 0;
-     border: 1px dashed #666;  /* set to none if you don't want border */
+     margin: 1px;
+     padding-top: 25px;
+     border: 2px dashed #666;  /* set to none if you don't want border */
      font-family: Georgia;
      font-size: 20px;
      background: #FFF;
@@ -59,6 +59,13 @@ legend.legend-border {
      text-align: center; 
      vertical-align: middle;
      height: 100px;
-     line-height: 100px;
+     /*line-height: 100px;*/
      width: 300px;
+     background-color: #e8e8e8;
+}
+
+.drop-box.dragover {
+  border: 3px dashed #7094FF;
+  background-color: #B3C3EF;
+  
 }
