@@ -80,8 +80,7 @@ mainApp.config(function($routeProvider, $locationProvider, $httpProvider){
 	});
 
 //run when application starts
-mainApp.run(function($rootScope, $location, $cookieStore, ngProgress) {
-//    ngProgress.start();
+mainApp.run(function($rootScope, $location, $cookieStore) {
 	
 	$rootScope.enableCookie = false;
 	
@@ -166,7 +165,6 @@ mainApp.run(function($rootScope, $location, $cookieStore, ngProgress) {
 	//default to main page
 	$location.path("/home")		
 
-	
 	
 });
 

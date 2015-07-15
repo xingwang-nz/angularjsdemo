@@ -4,12 +4,11 @@
 			<fieldset class="fieldset-border">
 				<legend class="legend-border">Upload File Demo</legend>
 				
-				<button class="btn btn-primary" ngf-select="true"
+				<button class="btn btn-primary" ngf-select="true" ngf-max-size="{{uploadMaxSize}}"
 					ngf-multiple="false" ngf-change="uploadFile($files, $event)">{{upoladFileText}}</button>
-					
 				<p/>
 
-				<div class="drop-box" ngf-drop ng-model="files"
+				<div class="drop-box" ngf-drop ng-model="files" ngf-max-size="{{uploadMaxSize}}"
 					ngf-drag-over-class="dragover" ngf-multiple="false"
 					ngf-allow-dir="false"><span style="vertical-align: middle;display: inline-block;">Drop file here</span></div>
 					 

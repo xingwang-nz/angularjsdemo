@@ -8,8 +8,8 @@ angular.module('mainApp').controller('fileUploadController', function($scope, $r
     ngProgress.color("#6666FF");
 
     $scope.upoladFileText = "Upload File";
-    $scope.showSpinner = false;
     
+    $rootScope.uploadMaxSize = 104857600;
     
     $scope.$watch('files', function () {
         $scope.uploadFile($scope.files);
