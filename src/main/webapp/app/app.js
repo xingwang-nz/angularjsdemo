@@ -11,11 +11,14 @@ mainApp.config(function($routeProvider, $locationProvider, $httpProvider){
 			controller : 'adminController',
 			templateUrl : 'app/admin/admin.html'
 		})
-		.when('/configuration', {
-			controller : 'configurationController',
-			templateUrl : 'app/configuration/configuration.html'
+		.when('/upload', {
+			controller : 'uploadController',
+			templateUrl : 'app/upload/upload.html'
 		})
-		
+		.when('/site', {
+            controller : 'siteController',
+            templateUrl : 'app/site/site.html'
+        })
 		// default
 		.otherwise({
 			redirectTo : '/home'

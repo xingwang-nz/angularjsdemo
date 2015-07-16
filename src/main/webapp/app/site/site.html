@@ -1,0 +1,28 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			<div class="panel-group" id="accordion" role="tablist" data-allow-multiple="true" aria-multiselectable="false" bs-collapse>
+				<div class="panel panel-default" ng-repeat="site in sites">
+					<div class="panel-heading"  role="tab">
+						<h4 class="panel-title">
+							<a bs-collapse-toggle data-toggle="collapse" data-parent="#accordion" href="collapse{{$index+1}}"> {{ site.name }} </a>
+						</h4>
+					</div>
+					<div id="collapse{{$index+1}}" class="panel-collapse  collapse in" bs-collapse-target>
+						<div class="panel-body">
+							<ul class="nav nav-pills nav-stacked">
+								<li class="dropdown" ng-repeat="target in site.targets" ng-class="activeTargetClass(target)"><a
+									class="dropdown-toggle" data-toggle="dropdown" ng-click="selectTarget(target)">{{target.productType}}-{{target.serialNumber}}</a></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-10">
+		</div>
+		
+	</div>
+</div>

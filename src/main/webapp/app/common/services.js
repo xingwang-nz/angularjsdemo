@@ -32,7 +32,18 @@ angular.module('restServices', ['ngResource'])
             {
                 saveConfigFile: {
                     method: 'POST',
-                    params: {'action' : 'saveContent'},
+                    params: {'action' : 'saveContent'}
+                }
+            }
+        );
+}).factory('siteService', function($rootScope, $resource) {
+    
+    return $resource($rootScope.getServiceFullUrl('site/:action'), {},
+            {
+                getAllSites: {
+                    method: 'GET',
+                    params: {'action' : 'list'},
+                    isArray: true
                 }
             }
         );

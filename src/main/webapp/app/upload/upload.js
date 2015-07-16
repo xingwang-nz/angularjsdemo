@@ -1,4 +1,4 @@
-angular.module('mainApp').controller('configurationController', function($scope, $rootScope, $location, Upload, ngProgress) {
+angular.module('mainApp').controller('uploadController', function($scope, $rootScope, $location, Upload, ngProgress) {
     
 
 });

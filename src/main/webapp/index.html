@@ -19,8 +19,6 @@
 <link rel="stylesheet" href="css/angular-motion.min.css">
 <link rel="stylesheet" href="css/bootstrap-additions.min.css">
 
-
-
 </head>
 
 <body ng-controller="mainController">
@@ -52,8 +50,12 @@
 					</li>
 					
 					
-					<li ng-class="activePageClass('/configuration')"><a href="#/configuration" ng-show="user">
-						<span class="glyphicon glyphicon-book"></span> Configuration</a>
+					<li ng-class="activePageClass('/upload')"><a href="#/upload" ng-show="user">
+						<span class="glyphicon glyphicon-upload"></span> Upload</a>
+					</li>
+					
+					<li ng-class="activePageClass('/site')"><a href="#/site" ng-show="user">
+						<span class="glyphicon glyphicon-book"></span> Site</a>
 					</li>
 					
 					
@@ -69,7 +71,6 @@
 					</li>
 					-->
 				</ul>
-				
 				
 				
 				<ul class="nav navbar-nav navbar-right" ng-show="!user">
@@ -112,6 +113,7 @@
 	<script src="lib/angular-resource.min.js" type="text/javascript"></script>
 	<script src="lib/angular-cookies.min.js" type="text/javascript"></script>
 	<script src="lib/angular-animate.min.js" type="text/javascript"></script>
+<!-- 	<script src="lib/ui-bootstrap-tpls-0.13.0.min.js" type="text/javascript"></script> -->
 	
 	<!-- file upload lib -->
 	<!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
@@ -137,9 +139,9 @@
 	<script src="app/common/common-config.js" type="text/javascript"></script>
 	<script src="app/app.js" type="text/javascript"></script>
 	<script src="app/common/services.js" type="text/javascript"></script>
-	<script src="app/configuration/configuration.js" type="text/javascript"></script>
+	<script src="app/upload/upload.js" type="text/javascript"></script>
 	<script src="app/admin/admin.js" type="text/javascript"></script>
 	<script src="app/login/login.js" type="text/javascript"></script>
-	
+	<script src="app/site/site.js" type="text/javascript"></script>
 </body>
 </html>
