@@ -18,7 +18,7 @@ angular.module('mainApp').controller('loginController', function($scope, $rootSc
                 $rootScope.isAdmin = user.userRoles.indexOf("ROLE_ADMIN") != -1;
                 delete $rootScope.authError;
                 $rootScope.hideSlidePanel();
-                $location.path("/site");
+                $location.path("/configuration");
                 // $location.path("/admin");
             });
 

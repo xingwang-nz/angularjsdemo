@@ -48,6 +48,13 @@ legend.legend-border {
 
 }
 
+.centered-axis-xy {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
 .drop-box {
      margin: 1px;
      padding-top: 25px;

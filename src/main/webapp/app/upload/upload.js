@@ -83,9 +83,5 @@ angular.module('mainApp').controller('configFileController', function($scope, $r
         });
     }
     
-    $scope.pop = function () {
-        alert(1);
-        toaster.pop('success', "title", "text");
-    }
     
 });
