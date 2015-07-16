@@ -3,7 +3,7 @@ angular.module('mainApp').controller('loginController', function($scope, $rootSc
 
     $scope.login = function() {
         // $httpParamSerializer(formDataObj)
-        userService.authenticate($.param({
+        userService.authenticate({}, $.param({
             username : $scope.username,
             password : $scope.password
         }), function(authenticationResult) {
