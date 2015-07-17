@@ -88,6 +88,8 @@ mainApp.run(function($rootScope, $location, $cookieStore) {
 	
 	$rootScope.initialized = true;
 	
+	$rootScope.uploadMaxSize = 104857600;
+	
 
 //    $http.get('config.json').then(function(response) {
 //        $rootScope.envConfig = response.data;

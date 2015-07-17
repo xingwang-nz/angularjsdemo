@@ -71,8 +71,28 @@ legend.legend-border {
      background-color: #e8e8e8;
 }
 
+.drop-box-sm {
+     margin-bottom: 10px;
+     padding: 5px;
+     border: 2px dashed #666;  /* set to none if you don't want border */
+     font-family: Arial;
+     font-size: 15px;
+     color: #3B444B;
+     text-align: center; 
+     vertical-align: middle;
+     height: 100%;
+     /*line-height: 100px;*/
+     width: 280px;
+     background-color: #e8e8e8;
+}
+
+.drop-box-sm.dragover {
+  border: 3px dashed #7094FF;
+  background-color: #B3C3EF;
+}
+
 .drop-box.dragover {
   border: 3px dashed #7094FF;
   background-color: #B3C3EF;
-  
 }
+

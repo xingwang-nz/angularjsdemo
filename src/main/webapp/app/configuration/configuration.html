@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="configurationController">
 	<div class="row">
 		<div class="col-md-2">
-			<div class="panel-group" id="accordion" role="tablist" data-allow-multiple="true" aria-multiselectable="false" bs-collapse>
+			<div class="panel-group" id="accordion" data-allow-multiple="true" aria-multiselectable="true" bs-collapse>
 				<div class="panel panel-default" ng-repeat="site in sites">
 					<div class="panel-heading"  role="tab">
 						<h4 class="panel-title">
@@ -11,21 +11,55 @@
 					<div id="collapse{{$index+1}}" class="panel-collapse  collapse in" bs-collapse-target>
 						<div class="panel-body">
 							<ul class="nav nav-pills nav-stacked">
-								<li class="dropdown" ng-repeat="target in site.targets" ng-class="activeTargetClass(target)"><a
-									class="dropdown-toggle" data-toggle="dropdown" ng-click="selectTarget(target)">{{target.productType}}-{{target.serialNumber}}</a></li>
+								<li class="dropdown" ng-repeat="target in site.targets" ng-class="activeTargetClass(target)"><a href=""
+									class="dropdown-toggle" data-toggle="dropdown" ng-click="selectTarget(target)">{{target.productType}}-{{target.serialNumber}}-{{target.id}}</a></li>
 							</ul>
-
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="col-md-10">
-			<div class="centered-axis-xy">
-			<span us-spinner="{radius:30, width:8, length: 16}" class="centered-axis-xy" ng-show="loadingTarget"></span>
+			<div class="panel-group" ng-show="selectedTarget">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<span>{{selectedTarget.productType}}-{{selectedTarget.serialNumber}}/{{selectedTarget.id}}</span> 
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="drop-box-sm" ngf-drop ng-model="files" ngf-max-size="{{uploadMaxSize}}"
+									ngf-drag-over-class="dragover" ngf-multiple="false"
+									ngf-allow-dir="false">
+										<span style="vertical-align: middle;display: inline-block;">Drop file here or click <b>Upload</b> button
+										</span>
+										<button class="btn btn-primary" ngf-select="true" ngf-max-size="{{uploadMaxSize}}" ng-disabled="processInProgress"
+											ngf-multiple="false" ngf-change="uploadFile($files, $event)">Upload</button>
+								</div>
+								
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="list-group">
+									 <a href="" class="list-group-item" ng-repeat="configFile in selectedTarget.configFiles">{{configFile.filename}}</a>
+								</div>
+							</div>
+							<div class="col-sm-9">
+							</div>
+							
+						</div>
+							
+					</div>
+				</div>
 			</div>
 		</div>
+
+		<div  class="clearfix visible-lg">
+			<toaster-container toaster-options="{'time-out': 5000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
+			<span us-spinner="{radius:30, width:8, length: 16}" class="centered-axis-xy" ng-show="processInProgress"></span>
+		</div>	
 		
 	</div>
 </div>

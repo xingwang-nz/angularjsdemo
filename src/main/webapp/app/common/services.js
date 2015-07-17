@@ -47,4 +47,15 @@ angular.module('restServices', ['ngResource'])
                 }
             }
         );
+}).factory('targetService', function($rootScope, $resource) {
+    
+    return $resource($rootScope.getServiceFullUrl('target/:id/:action'), {'id': '@id'},
+            {
+                getAllConfigFiles: {
+                    method: 'GET',
+                    params: {'action' : 'configFiles'},
+                    isArray: true
+                }
+            }
+        );
 });

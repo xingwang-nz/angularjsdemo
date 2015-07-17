@@ -9,8 +9,6 @@ angular.module('mainApp').controller('fileUploadController', function($scope, $r
 
     $scope.upoladFileText = "Upload File";
     
-    $rootScope.uploadMaxSize = 104857600;
-    
     $scope.$watch('files', function () {
         $scope.uploadFile($scope.files);
     });
@@ -36,7 +34,7 @@ angular.module('mainApp').controller('fileUploadController', function($scope, $r
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 $scope.uploader = Upload.upload({
-                    url: $rootScope.getServiceFullUrl('file/upload'),
+                    url: $rootScope.getServiceFullUrl('file/upload/test'),
                     fields: {'username': $rootScope.user.username},
                     file: file
                 }).progress(function (evt) {
