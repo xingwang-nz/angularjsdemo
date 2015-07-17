@@ -49,12 +49,19 @@ angular.module('restServices', ['ngResource'])
         );
 }).factory('targetService', function($rootScope, $resource) {
     
-    return $resource($rootScope.getServiceFullUrl('target/:id/:action'), {'id': '@id'},
+    return $resource($rootScope.getServiceFullUrl('target/:id/configFile/:action/:filename'), {'id': '@id', 'filename': '@filename'},
             {
                 getAllConfigFiles: {
                     method: 'GET',
-                    params: {'action' : 'configFiles'},
+                    params: {'action' : 'list'},
                     isArray: true
+                },
+                getconfigFileContent: {
+                    method: 'GET',
+                    params: {'action' : 'content'},
+                    transformResponse: function(data, headersGetter, status) { //the response is text
+                        return {content: data};
+                    }
                 }
             }
         );

@@ -27,9 +27,10 @@
 						<span>{{selectedTarget.productType}}-{{selectedTarget.serialNumber}}/{{selectedTarget.id}}</span> 
 					</div>
 					<div class="panel-body">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="drop-box-sm" ngf-drop ng-model="files" ngf-max-size="{{uploadMaxSize}}"
+						<div class="col-sm-3">
+							<!-- upload file panel -->
+							<div class="row">
+								<div style="width:100%" class="drop-box-sm" ngf-drop ng-model="files" ngf-max-size="{{uploadMaxSize}}"
 									ngf-drag-over-class="dragover" ngf-multiple="false"
 									ngf-allow-dir="false">
 										<span style="vertical-align: middle;display: inline-block;">Drop file here or click <b>Upload</b> button
@@ -37,20 +38,40 @@
 										<button class="btn btn-primary" ngf-select="true" ngf-max-size="{{uploadMaxSize}}" ng-disabled="processInProgress"
 											ngf-multiple="false" ngf-change="uploadFile($files, $event)">Upload</button>
 								</div>
-								
+							</div>
+							
+							<!-- list file panel -->
+							<div class="row">
+								<ul class="list-group">
+									 <li class="list-group-item" ng-repeat="configFile in selectedTarget.configFiles">
+									 	<a href="" ng-click="selectConfigFile(configFile)">{{configFile.filename}}</a>
+									 </li>
+								</ul>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-sm-3">
-								<div class="list-group">
-									 <a href="" class="list-group-item" ng-repeat="configFile in selectedTarget.configFiles">{{configFile.filename}}</a>
+						
+						<div class="col-sm-9">
+							<div class="panel  panel-success" ng-show="selectedConfigFile">
+								<div class="panel-heading">
+									<span class="panel-title">{{selectedConfigFile.filename}}</span>
+								
+										<span class="btn-group  pull-right">
+										  <button type="button" class="btn btn-md btn-primary" ng-click="cancelEditConfigFile()" ng-disabled="processInProgress">Cancel</button>
+										  <button type="button" class="btn btn-md btn-primary" ng-click="saveConfigFile()" ng-disabled="processInProgress">Save</button>
+										</span>
+								
+								</div>
+								<div class="panel-body">
+									<form class="form-horizontal" name="editConfigFileForm">
+									<div class="form-group row">
+										<textarea class="form-control custom-control" ng-model="selectedConfigFile.content" rows="20" required></textarea>
+									</div>
+								</form>	
 								</div>
 							</div>
-							<div class="col-sm-9">
-							</div>
 							
 						</div>
-							
+						
 					</div>
 				</div>
 			</div>

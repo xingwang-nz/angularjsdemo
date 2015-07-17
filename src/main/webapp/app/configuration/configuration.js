@@ -17,19 +17,66 @@ angular.module('mainApp').controller('configurationController', function($scope,
 
     $scope.selectTarget = function(target) {
         $scope.processInProgress = true;
+        
         targetService.getAllConfigFiles({
             id : target.id
         }, function(data) {
             target.configFiles = data;
             $scope.selectedTarget = target;
             $scope.processInProgress = false;
+            
+            //check if current open configfile belongs to the current target
+            if(angular.isDefined($scope.selectedConfigFile) && $scope.selectedConfigFile != null) {
+                if($scope.selectedConfigFile.targetId != target.id) {
+                    delete $scope.selectedConfigFile;
+                }else {
+                    var containsConfigFile = false;
+                    for(var i = 0; i < target.configFiles.length; i++) {
+                        if($scope.selectedConfigFile.targetId === target.configFiles[i].targetId) {
+                            containsConfigFile = true;
+                            break;
+                        }
+                    }
+                    if(containsConfigFile == false) {
+                        delete $scope.selectedConfigFile;
+                    }
+                }
+            }
+            
         }, function(error) {
-            // TODO display error
             delete $scope.selectedTarget;
-            alert(error);
+            delete $scope.selectedConfigFile;
             $scope.processInProgress = false;
+            // TODO display error
+            alert(error);
+            
         });
-
+    }
+    
+    $scope.selectConfigFile = function(configFile) {
+        
+        $scope.processInProgress = true;
+        
+        targetService.getconfigFileContent({
+            id : configFile.targetId,
+            filename : configFile.filename
+        }, function(data) {
+            configFile.content = data.content;
+            $scope.selectedConfigFile = configFile;
+            $scope.processInProgress = false;
+        }, function(error) {
+            $scope.processInProgress = false;
+            // TODO display error
+            alert(error);
+        });
+        
+    }
+    
+    $scope.saveConfigFile = function() {
+    }
+    
+    $scope.cancelEditConfigFile = function() {
+        delete $scope.selectedConfigFile;
     }
     
     $scope.uploadFile = function (files, evt) {
@@ -59,7 +106,6 @@ angular.module('mainApp').controller('configurationController', function($scope,
                     
                 }).error(function (error, status, headers, config) {
                     //TODO display error
-                    alert(error);
                     toaster.pop({type: 'error', title: 'File Upload', body: "File uploaded failed " + status});
                     console.log('error status: ' + status);
                     $scope.processInProgress = false;
