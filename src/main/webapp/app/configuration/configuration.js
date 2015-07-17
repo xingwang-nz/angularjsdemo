@@ -1,4 +1,4 @@
-angular.module('mainApp').controller('configurationController', function($scope, $rootScope, $location, Upload, ngProgress, siteService, targetService, toaster) {
+angular.module('mainApp').controller('configurationController', function($scope, $rootScope, $location, Upload, ngProgress, siteService, targetService, s3FileService, toaster) {
     
     $scope.sites = {};
     $scope.processInProgress = false;
@@ -73,10 +73,36 @@ angular.module('mainApp').controller('configurationController', function($scope,
     }
     
     $scope.saveConfigFile = function() {
+        
+        if(!$scope.selectedConfigFile) {
+            return;
+        }
+        
+        $scope.processInProgress = true;
+        
+        s3FileService.saveConfigFile({id: $scope.selectedConfigFile.targetId}, {
+            filename : $scope.selectedConfigFile.filename,
+            content : $scope.selectedConfigFile.content
+        }, function(data, status) {
+            //$("#editConfigFileForm").$setPristine(true);
+            //$("#editConfigFileForm").$setDirty(false);
+            toaster.pop({type: 'success', title:'', body:$scope.selectedConfigFile.filename + " was saved successfully"});
+            $scope.processInProgress = false;
+        }, function(error, status){
+            toaster.pop({type: 'error', title: '', body:$scope.configFile.filename + " saved failed: " + error});
+            console.log('error status: ' + status);
+            $scope.processInProgress = false;
+        });
+        
     }
     
-    $scope.cancelEditConfigFile = function() {
-        delete $scope.selectedConfigFile;
+    $scope.cancelEditConfigFile = function(forDirty) {
+        if(!forDirty) {
+            delete $scope.selectedConfigFile;    
+        }else {
+            //TODO: popup alert
+        }
+        
     }
     
     $scope.uploadFile = function (files, evt) {
