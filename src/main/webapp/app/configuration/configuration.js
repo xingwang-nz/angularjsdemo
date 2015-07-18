@@ -1,7 +1,7 @@
 angular.module('mainApp').controller('configurationController', function($scope, $rootScope, $location, Upload, ngProgress, siteService, targetService, s3FileService, toaster) {
     
     $scope.sites = {};
-    $scope.processInProgress = false;
+    $scope.processInProgress = true;
     
     $scope.$watch('files', function () {
         $scope.uploadFile($scope.files);
@@ -25,7 +25,7 @@ angular.module('mainApp').controller('configurationController', function($scope,
             $scope.selectedTarget = target;
             $scope.processInProgress = false;
             
-            //check if current open configfile belongs to the current target
+            //check if current open config belongs to the current target
             if(angular.isDefined($scope.selectedConfigFile) && $scope.selectedConfigFile != null) {
                 if($scope.selectedConfigFile.targetId != target.id) {
                     delete $scope.selectedConfigFile;
@@ -84,8 +84,7 @@ angular.module('mainApp').controller('configurationController', function($scope,
             filename : $scope.selectedConfigFile.filename,
             content : $scope.selectedConfigFile.content
         }, function(data, status) {
-            //$("#editConfigFileForm").$setPristine(true);
-            //$("#editConfigFileForm").$setDirty(false);
+            resetEditConfigFileFormToBeClean();
             toaster.pop({type: 'success', title:'', body:$scope.selectedConfigFile.filename + " was saved successfully"});
             $scope.processInProgress = false;
         }, function(error, status){
@@ -96,14 +95,30 @@ angular.module('mainApp').controller('configurationController', function($scope,
         
     }
     
-    $scope.cancelEditConfigFile = function(forDirty) {
-        if(!forDirty) {
-            delete $scope.selectedConfigFile;    
+    $scope.cancelEditConfigFile = function(formDirty) {
+        delete $scope.selectedConfigFile;
+    }
+
+    function resetEditConfigFileFormToBeClean() {
+        //reset form Pristine to true
+        $scope.editConfigFileForm.$setPristine(true);
+    }
+    
+    $scope.$watch("selectedConfigFile", function(newSelectedConfigFile, currentSelectedConfigFile){
+        var needResetFormState = false;
+        if(!currentSelectedConfigFile || !newSelectedConfigFile) {
+           //no current config file selected file, or current selected file is unselected
+            needResetFormState = true;
+        }else if(newSelectedConfigFile.targetId != currentSelectedConfigFile.targetId) {
+            needResetFormState = true;
         }else {
-            //TODO: popup alert
+            needResetFormState = newSelectedConfigFile.filename != currentSelectedConfigFile.filename ? true : false;
         }
         
-    }
+        if(needResetFormState) {
+            resetEditConfigFileFormToBeClean();
+        }
+    });
     
     $scope.uploadFile = function (files, evt) {
         if(!$scope.selectedTarget) {
@@ -142,6 +157,7 @@ angular.module('mainApp').controller('configurationController', function($scope,
     
     $scope.init = function() {
         $scope.processInProgress = true;
+        
         siteService.getAllSites({}, function(data) {
             $scope.sites = data;
             if ($scope.sites && $scope.sites.length > 0) {
