@@ -75,7 +75,12 @@ angular.module('mainApp').controller('configurationController', function($scope,
     $scope.removeConfigFile = function(configFile) {
         $scope.processInProgress = true;
         
-        s3FileService.deleteConfigFile(configFile, function(data){
+        s3FileService.deleteConfigFile({
+            targetId : $scope.configFile.targetId,
+            filename : $scope.configFile.filename
+        }, function(data){
+            $scope.processInProgress = false;
+            
             toaster.pop({type: 'success', title:'', body:configFile.filename + " was deleted successfully"});
             $scope.processInProgress = false;
             
@@ -84,33 +89,44 @@ angular.module('mainApp').controller('configurationController', function($scope,
             }
             
         }, function(error, status){
-            toaster.pop({type: 'error', title: '', body:configFile.filename + " delete failed: " + error});
-            console.log('error status: ' + status);
             $scope.processInProgress = false;
+            toaster.pop({type: 'error', title: '', body:configFile.filename + " delete failed:(" + status +") " + error.message});
+            console.log('error status: ' + status);
         });
     }
     
+
     $scope.saveConfigFile = function() {
-        
-        if(!$scope.selectedConfigFile) {
+    
+        if (!$scope.selectedConfigFile) {
             return;
         }
-        
+    
         $scope.processInProgress = true;
-        
-        s3FileService.saveConfigFile({targetId: $scope.selectedConfigFile.targetId}, {
-            filename : $scope.selectedConfigFile.filename,
-            content : $scope.selectedConfigFile.content
-        }, function(data, status) {
-            resetEditConfigFileFormToBeClean();
-            toaster.pop({type: 'success', title:'', body:$scope.selectedConfigFile.filename + " was saved successfully"});
+    
+        s3FileService.saveConfigFile({
+            targetId : $scope.selectedConfigFile.targetId,
+            filename : $scope.selectedConfigFile.filename
+        }, $scope.selectedConfigFile.content, 
+           function(data, status) {
             $scope.processInProgress = false;
-        }, function(error, status){
-            toaster.pop({type: 'error', title: '', body:$scope.selectedConfigFile.filename + " saved failed: " + error});
+            resetEditConfigFileFormToBeClean();
+            toaster.pop({
+                type : 'success',
+                title : '',
+                body : $scope.selectedConfigFile.filename + " was saved successfully"
+            });
+            
+        }, function(error, status) {
+            toaster.pop({
+                type : 'error',
+                title : '',
+                body:configFile.filename + " delete failed:(" + status +") " + error.message
+            });
             console.log('error status: ' + status);
             $scope.processInProgress = false;
         });
-        
+    
     }
     
     $scope.cancelEditConfigFile = function(formDirty) {
