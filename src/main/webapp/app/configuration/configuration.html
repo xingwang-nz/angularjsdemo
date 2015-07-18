@@ -44,7 +44,8 @@
 							<div class="row">
 								<ul class="list-group">
 									 <li class="list-group-item" ng-repeat="configFile in selectedTarget.configFiles">
-									 	<a href="" ng-click="selectConfigFile(configFile)">{{configFile.filename}}</a>
+									 	<a href="" data-toggle="tooltip" title="View/Edit File" ng-click="selectConfigFile(configFile)">{{configFile.filename}}</a>
+									 	<a href="" class="pull-right glyphicon glyphicon-remove" data-toggle="tooltip" title="Delete File" ng-click="removeConfigFile(configFile)"></a>
 									 </li>
 								</ul>
 							</div>

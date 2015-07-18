@@ -72,6 +72,24 @@ angular.module('mainApp').controller('configurationController', function($scope,
         
     }
     
+    $scope.removeConfigFile = function(configFile) {
+        $scope.processInProgress = true;
+        
+        s3FileService.deleteConfigFile(configFile, function(data){
+            toaster.pop({type: 'success', title:'', body:configFile.filename + " was deleted successfully"});
+            $scope.processInProgress = false;
+            
+            if(selectedConfigFile && selectedConfigFile.targetId == configFile.targetId && selectedConfigFile.filename === configFile.filename) {
+                delete $scope.selectedConfigFile;
+            }
+            
+        }, function(error, status){
+            toaster.pop({type: 'error', title: '', body:configFile.filename + " delete failed: " + error});
+            console.log('error status: ' + status);
+            $scope.processInProgress = false;
+        });
+    }
+    
     $scope.saveConfigFile = function() {
         
         if(!$scope.selectedConfigFile) {
@@ -80,7 +98,7 @@ angular.module('mainApp').controller('configurationController', function($scope,
         
         $scope.processInProgress = true;
         
-        s3FileService.saveConfigFile({id: $scope.selectedConfigFile.targetId}, {
+        s3FileService.saveConfigFile({targetId: $scope.selectedConfigFile.targetId}, {
             filename : $scope.selectedConfigFile.filename,
             content : $scope.selectedConfigFile.content
         }, function(data, status) {
@@ -88,7 +106,7 @@ angular.module('mainApp').controller('configurationController', function($scope,
             toaster.pop({type: 'success', title:'', body:$scope.selectedConfigFile.filename + " was saved successfully"});
             $scope.processInProgress = false;
         }, function(error, status){
-            toaster.pop({type: 'error', title: '', body:$scope.configFile.filename + " saved failed: " + error});
+            toaster.pop({type: 'error', title: '', body:$scope.selectedConfigFile.filename + " saved failed: " + error});
             console.log('error status: ' + status);
             $scope.processInProgress = false;
         });

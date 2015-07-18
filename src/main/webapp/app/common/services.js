@@ -27,11 +27,11 @@ angular.module('restServices', ['ngResource'])
 			}
 		);
 }).factory('s3FileService', function($rootScope, $resource) {
-    return $resource($rootScope.getServiceFullUrl('file/:action/:id'), {id: '@id'},
+    return $resource($rootScope.getServiceFullUrl('file/:action/:targetId'), {targetId: '@targetId'},
             {
                 saveConfigFile: {
                     method: 'POST',
-                    params: {'action' : 'saveContent'}
+                    params: {'action' : 'save'}
                 }
             }
         );
