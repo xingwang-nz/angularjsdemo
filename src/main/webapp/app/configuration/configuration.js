@@ -73,18 +73,25 @@ angular.module('mainApp').controller('configurationController', function($scope,
     }
     
     $scope.removeConfigFile = function(configFile) {
+        if(!$scope.selectedTarget) {
+            return;
+        }
+        
         $scope.processInProgress = true;
         
         s3FileService.deleteConfigFile({
-            targetId : $scope.configFile.targetId,
-            filename : $scope.configFile.filename
+            targetId : configFile.targetId,
+            filename : configFile.filename
         }, function(data){
             $scope.processInProgress = false;
             
             toaster.pop({type: 'success', title:'', body:configFile.filename + " was deleted successfully"});
             $scope.processInProgress = false;
-            
-            if(selectedConfigFile && selectedConfigFile.targetId == configFile.targetId && selectedConfigFile.filename === configFile.filename) {
+
+            var configFiles = $scope.selectedTarget.configFiles;
+            configFiles.splice(configFiles.indexOf(configFile), 1);
+            //if the deleted config file is current selected, reset the edit form and close edit form
+            if($scope.selectedConfigFile && $scope.selectedConfigFile.targetId == configFile.targetId && $scope.selectedConfigFile.filename === configFile.filename) {
                 delete $scope.selectedConfigFile;
             }
             
