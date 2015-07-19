@@ -6,9 +6,11 @@ angular.module('mainApp').controller('adminController', function($rootScope, $sc
 	$scope.features = {};
 	
 	$scope.loadAllUsers = function() {
-		userService.getAllUsers({}, function(data){
+	var data =	userService.getAllUsers({}, function(){
 			$scope.users = data
 			$scope.showMode = "users"
+		}, function(error){
+		    alert("Error(" + error.status +") " + error.data);
 		});
 	}
 	
@@ -16,7 +18,9 @@ angular.module('mainApp').controller('adminController', function($rootScope, $sc
 		featureService.getAllFeatures({}, function(data){
 			$scope.features = data
 			$scope.showMode = "features"
-		});
+		}, function(error){
+		    alert("Error(" + error.status +") " + error.data);    
+        });
 	}
 	
 	

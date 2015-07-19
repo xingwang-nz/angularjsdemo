@@ -14,6 +14,10 @@ angular.module('mainApp').controller('configurationController', function($scope,
         return $scope.selectedTarget.id === target.id ? "active" : "";
     }
     
+    function showResponseNotification(notificationType, message) {
+        toaster.pop({type: notificationType, title: '', body: message});
+    }
+    
 
     $scope.selectTarget = function(target) {
         $scope.processInProgress = true;
@@ -44,12 +48,11 @@ angular.module('mainApp').controller('configurationController', function($scope,
             }
             
         }, function(error) {
+            $scope.processInProgress = false;
             delete $scope.selectedTarget;
             delete $scope.selectedConfigFile;
-            $scope.processInProgress = false;
             // TODO display error
-            alert(error);
-            
+            showResponseNotification("error", "Failed(" + error.status + ") loading config files for target " + target.id +": " + error.data);
         });
     }
     
@@ -61,13 +64,12 @@ angular.module('mainApp').controller('configurationController', function($scope,
             id : configFile.targetId,
             filename : configFile.filename
         }, function(data) {
+            $scope.processInProgress = false;
             configFile.content = data.content;
             $scope.selectedConfigFile = configFile;
-            $scope.processInProgress = false;
         }, function(error) {
             $scope.processInProgress = false;
-            // TODO display error
-            alert(error);
+            showResponseNotification("error", "Failed(" + error.status + ") loading config file " + configFile.filename + ": " + error.data);
         });
         
     }
@@ -85,8 +87,9 @@ angular.module('mainApp').controller('configurationController', function($scope,
         }, function(data){
             $scope.processInProgress = false;
             
-            toaster.pop({type: 'success', title:'', body:configFile.filename + " was deleted successfully"});
-            $scope.processInProgress = false;
+//            toaster.pop({type: 'success', title:'', body:configFile.filename + " was deleted successfully"});
+            showResponseNotification("success", configFile.filename + " was deleted successfully");
+           
 
             var configFiles = $scope.selectedTarget.configFiles;
             configFiles.splice(configFiles.indexOf(configFile), 1);
@@ -97,8 +100,7 @@ angular.module('mainApp').controller('configurationController', function($scope,
             
         }, function(error, status){
             $scope.processInProgress = false;
-            toaster.pop({type: 'error', title: '', body:configFile.filename + " delete failed:(" + status +") " + error.message});
-            console.log('error status: ' + status);
+            showResponseNotification("error", "Failed(" + error.status + ") deleting config file " + configFile.filename + ": " + error.data);
         });
     }
     
@@ -118,20 +120,11 @@ angular.module('mainApp').controller('configurationController', function($scope,
            function(data, status) {
             $scope.processInProgress = false;
             resetEditConfigFileFormToBeClean();
-            toaster.pop({
-                type : 'success',
-                title : '',
-                body : $scope.selectedConfigFile.filename + " was saved successfully"
-            });
+            showResponseNotification("success", $scope.selectedConfigFile.filename + " was saved successfully");
             
         }, function(error, status) {
-            toaster.pop({
-                type : 'error',
-                title : '',
-                body:configFile.filename + " delete failed:(" + status +") " + error.message
-            });
-            console.log('error status: ' + status);
             $scope.processInProgress = false;
+            showResponseNotification("error", "Failed(" + error.status + ") saving config file " + $scope.selectedConfigFile.filename + ": " + error.data);
         });
     
     }
@@ -182,9 +175,9 @@ angular.module('mainApp').controller('configurationController', function($scope,
                     
                     //reload configFiles
                     $scope.selectTarget($scope.selectedTarget);
-                    
-                    toaster.pop({type: 'success', title: '', body: "File was uploaded successfully"});
                     $scope.processInProgress = false;
+                    
+                    showResponseNotification("success", "File was uploaded successfully");
                     
                 }).error(function (error, status, headers, config) {
                     //TODO display error
@@ -208,7 +201,7 @@ angular.module('mainApp').controller('configurationController', function($scope,
         }, function(error) {
             $scope.processInProgress = false;
            //TODO display error
-            alert(error);
+            showResponseNotification("error", "Failed(" + error.status + ") loading sites "  + ": " + error.data);
         });
     }
 

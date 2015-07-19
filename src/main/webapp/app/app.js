@@ -74,6 +74,7 @@ mainApp.config(function($routeProvider, $locationProvider, $httpProvider){
 	        				config.url = config.url + "?token=" + authToken;
 	        			}
 	        		}
+	        		// Return the config or wrap it in a promise if blank
 	        		return config || $q.when(config);
 	        	}
 	        };
